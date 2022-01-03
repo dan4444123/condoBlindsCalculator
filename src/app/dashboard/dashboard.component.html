@@ -1,0 +1,372 @@
+
+<file-upload (onFinalData)="itemIsAvailable($event)"></file-upload>
+
+<div class="widget">
+  <label>
+      <div (click)="exportItems()" class="iconContainer" >
+          <mat-icon>system_update_alt</mat-icon>
+      </div>
+  </label>
+</div>
+
+
+<!-- <refresh-storage></refresh-storage> -->
+
+<app-notes [routerLink]='["/notes"]'></app-notes>
+
+<div class="container fill">
+  <mat-card>
+    <!-- <mat-card-header>
+     
+    </mat-card-header> -->
+    <mat-card-content>
+
+      <div class="constants of_5 small_input" style="font-size: 10px;">
+        <div>
+          <span>Model Name</span>
+          <mat-form-field appearance="outline">
+            <div class="groupName" style="display: flex;">
+              <input matInput type="text" [(ngModel)]="groupName">
+              <mat-select style="height: 0;" [(ngModel)]="groupName">
+                <mat-option *ngFor="let group of groupNames" [value]="group">{{group}}</mat-option>
+              </mat-select>
+            </div>
+          </mat-form-field>
+          <br>
+          
+          <i [ngClass]="{ hidden: groupName || groupName !== '' || groupName !== null }">Discount cannot be a null value</i>
+        </div>
+        
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="container fill">
+  <mat-card>
+    <mat-card-header>
+      <!-- <mat-card-title>
+        <h1>Constants</h1>
+        <h5>These values will not change for each added item to the Table</h5>
+      </mat-card-title> -->
+    </mat-card-header>
+    <mat-card-content>
+
+      <div class="constants small_input of_4" style="font-size: 10px;">
+        <div style="position: relative;" >
+          <span>COST OF INSTALLMENT</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="costOfInstallation">
+          </mat-form-field>
+          <div class="iconContainer button" (click)="updateAllCostOfInstallment()">
+            <mat-icon>forward</mat-icon>
+          </div>
+        </div>
+        <div style="position: relative;" >
+          <span>PROFIT MARGIN</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="profitMargin">
+          </mat-form-field>
+          <div class="iconContainer button" (click)="updateAllProfitMargin()">
+            <mat-icon>forward</mat-icon>
+          </div>
+        </div>
+        
+        <div style="position: relative;" >
+          <span>Material</span>
+          <mat-form-field appearance="outline">
+            <input matInput name="material" type="text" [(ngModel)]="material">
+          </mat-form-field>
+          <div class="iconContainer button" (click)="updateAllMaterial()">
+            <mat-icon>forward</mat-icon>
+          </div>
+        </div>
+        <div style="position: relative;" >
+          <span>Color</span>
+          <mat-form-field appearance="outline">
+            <input matInput name="color" type="text" [(ngModel)]="color">
+          </mat-form-field>
+          <div class="iconContainer button" (click)="updateAllColor()">
+            <mat-icon>forward</mat-icon>
+          </div>
+        </div>
+        <div style="position: relative;" >
+          <span>Price Group</span>
+          <mat-form-field appearance="outline">
+            <div>
+              <mat-select [(ngModel)]="groupType" (selectionChange)="updateInputs()">
+                <mat-option *ngFor="let mat of MaterialGroups" [value]="mat.tag">{{mat.name}}</mat-option>
+              </mat-select>
+            </div>
+          </mat-form-field>
+          <div class="iconContainer button" (click)="updateAppGroupType()">
+            <mat-icon>forward</mat-icon>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="container of_auto">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h4>Enter Variables</h4>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="of_2 small_input">
+        <div>
+          <span>Room Label</span>
+          <mat-form-field appearance="outline">
+            <input matInput [(ngModel)]="roomLabel">
+          </mat-form-field>
+        </div>
+        <div>
+          <span>Quantity</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="decimal" [(ngModel)]="quantity" (focusout)="updateInputs()">
+          </mat-form-field>
+          <br>
+          <i [ngClass]="{hidden: quantity > 0 && quantity !== null}">insiffucuent value: {{quantity}}</i>
+        </div>
+        <div>
+          <span>Width</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="valWidth" (focusout)="updateInputs()" />
+          </mat-form-field>
+          <br>
+          <i [ngClass]="{hidden: valWidth > 0 && valWidth !== null}">Width Must Be Filled</i>
+        </div>
+        <div>
+          <span>Height</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="valHeight" (focusout)="updateInputs()" />
+          </mat-form-field>
+          <br>
+          <i [ngClass]="{hidden: valHeight > 0 && valHeight !== null}">Height Must Be Filled</i>
+        </div>
+
+
+        <div>
+          <abbr title="(Width * Height) / 144">
+            <span>Sqr.Ft</span>
+          </abbr>
+
+          <mat-form-field appearance="standard">
+            <input matInput type="decimal" disabled [ngModel]="sqrFt">
+          </mat-form-field>
+        </div>
+      </div>
+      <hr>
+      <mat-icon (click)="addToList()">add_circle</mat-icon>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h4>Pricing</h4>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="of_2 small_input">
+        <div>
+          <abbr title="to be determined">
+            <span>Retail Price</span>
+          </abbr>
+          <mat-form-field appearance="standard">
+            <input matInput type="decimal" [(ngModel)]="retailPrice" (focusout)="updateInputs()" disabled>
+          </mat-form-field>
+        </div>
+        <div>
+          <span>Discount (%)</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="discount" (focusout)="updateInputs()">
+          </mat-form-field>
+          <br>
+          <i [ngClass]="{hidden: discount !== null }">Discount cannot be a null value</i>
+        </div>
+
+        <div>
+          <abbr title="((RetailPrice * Discount) * QuantityDiscount) * Quantity">
+            <span>Cost</span>
+          </abbr>
+          <mat-form-field appearance="standard">
+            <input matInput type="text" disabled [(ngModel)]="valCost">
+          </mat-form-field>
+        </div>
+        <div>
+          <span>Discount 2 (%)</span>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="discount2" (focusout)="updateInputs()">
+          </mat-form-field>
+          <br>
+          <i [ngClass]="{hidden: discount2 !== null }">Discount cannot be a null value</i>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h4>Automated Values</h4>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="of_2 small_input">
+        <div>
+          <abbr title="">
+            <span>Total Price</span>
+          </abbr>
+          <mat-form-field appearance="standard">
+            <input matInput type="decimal" disabled [(ngModel)]="valPrice">
+          </mat-form-field>
+        </div>
+        <div>
+          <abbr title="InstallCost * Quantity">
+            <span>Installation Cost</span>
+          </abbr>
+          <mat-form-field appearance="standard">
+            <input matInput type="decimal" disabled [(ngModel)]="installmentCost">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="container">
+  <mat-card class="calcCard">
+
+    <mat-card-content>
+      <div class="addTab icon-container" (click)="createTab()">
+        <mat-icon>add_circle</mat-icon>
+      </div>
+      <mat-tab-group (selectedTabChange)="tabChange($event)" animationDuration="100ms">
+        <mat-tab *ngFor="let queryItem of queriesArray; index as index">
+          <ng-template mat-tab-label>
+            <div *ngIf="index == currentTab" class="icon-container closeTab" (click)="closeTab(index)">
+              <mat-icon>close</mat-icon>
+            </div>
+            {{ queryItem.name }}
+          </ng-template>
+          <div class="nameContainer">
+
+            <a><i class="editName" (click)="openEditPannel($event)">edit tab name</i></a>
+            <div>
+              <input [(ngModel)]="queryItem.name" (focusout)="updateInputs()">
+              <div class="icon-container checkmark" (click)="updateTabName($event)">
+                <mat-icon>checkmark</mat-icon>
+              </div>
+            </div>
+          </div>
+          <div #tableItems class="table">
+            <header>
+              <div> <span>Room</span> </div>
+              <div> <span>Price Group</span> </div>
+              <div> <span># of Blinds</span> </div>
+              <div> <span>Width</span> </div>
+              <div> <span>Height</span> </div>
+              <div> <span>Total Sq Ft</span> </div>
+              <div> <span>Retail Price</span> </div>
+              <div> <span>Fascia Retail</span> </div>
+              <div> <span>Discount</span> </div>
+              <div> <span>Discount 2</span> </div>
+              <div> <span>Cost</span> </div>
+              <div> <span>Installation + $12 New Hold Down</span> </div>
+              <div> <span>Fascia Cost</span> </div>
+              <div> <span>Motor Price</span> </div>
+              <div> <span>Price</span> </div>
+              <div> <span>Profit Margin</span> </div>
+              <div> <span>Profit</span> </div>
+              <div> <span>Final Open Roll Price</span> </div>
+              <div> <span>Retail Price</span> </div>
+              <div> <span>Final Fascia Price</span> </div>
+              <div> <span>Price with Fascia</span> </div>
+              <div> <span>Final Motor Price</span> </div>
+              <div> <span>Price with Motors</span> </div>
+            </header>
+            <div class="content">
+              <div class="group" *ngFor="let group of determineShortenedList(currentTab, maxItemsInList, true)[currentPagination]; index as groupIndex">
+                <div class="groupHeader">
+                  <span>{{group.Group || "Default"}}</span>
+
+                  <select style="margin-left: 16px;" (change)="groupTypeChange(groupIndex, $event)">
+                    <option *ngFor="let mat of MaterialGroups; index as i"
+                      [selected]="mat.tag == group.GroupItems[0].groupType" [value]="mat.tag">{{mat.name}}</option>
+                  </select>
+                  <input type="text" name="material" placeholder="Material" [value]="group.Material" (focusout)="updateGroupData(group, $event)">
+                  <input type="text" name="color" placeholder="Color" [value]="group.Color" (focusout)="updateGroupData(group, $event)">
+                </div>
+                <div #tableItems class="row" *ngFor="let query of group.GroupItems; index as itemIndex" [id]="query.id">
+                  <div> <span>{{query.roomLabel }}</span> </div>
+                  <div> <span>{{query.groupType }}</span> </div>
+                  <div> <span>{{query.quantity }}</span> </div>
+                  <div> <span>{{query.width }}</span> </div>
+                  <div> <span>{{query.height }}</span> </div>
+                  <div> <span>{{query.sqrFt }}</span> </div>
+                  <div> <span>{{query.retailPrice | numericCommas }}</span> </div>
+                  <div> <span>{{query.fasciaRetail | numericCommas }}</span> </div>
+                  <div> <span>{{query.discount + " %" }}</span> </div>
+                  <div> <span>{{query.discount2 + " %" }}</span> </div>
+                  <div> <span>{{query.cost | numericCommas }}</span> </div>
+                  <div> <span>{{query.installmentCost | numericCommas }}</span> </div>
+                  <div> <span>{{query.fasciaCost | numericCommas }}</span> </div>
+                  <div> <span>{{query.danielsMotorPrice | numericCommas }}</span> </div>
+                  <div> <span>{{query.price | numericCommas }}</span> </div>
+                  <div> <span>{{ query.profitMargin }}</span> </div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div class="icon-container" (click)="editFromList(query.groupName, query.id)">
+                    <mat-icon>edit</mat-icon>
+                  </div>
+                </div>
+                <!-- sums -->
+                <div class="row" style="border-top: 3px solid white;">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div> <span>{{totalCostSum(group) | numericCommas}}</span> <!-- total cost --> </div>
+                  <div> <span>{{totalInstallmentCostSum(group) | numericCommas}}</span> <!-- total installment cost --> </div>
+                  <div> <span>{{totalFasciaSum(group) | numericCommas}}</span> <!-- total fascia cost --> </div>
+                  <div> <span>{{totalMotorPriceSum(group) | numericCommas}}</span> <!-- total motor cost --> </div>
+                  <div> <span>{{totalPriceSum(group) | numericCommas}}</span> <!-- total price --> </div>
+                  <div></div>
+                  <div> <span>{{totalProfit(group) | numericCommas}}</span> </div>
+                  <div> <span>{{getCleanPrice(group) | numericCommas}}</span> </div>
+                  <div> <span>{{calculateFinalRetailPrice(group) | numericCommas}}</span> </div>
+                  <div> <span>{{calculateFinalFasciaPrice(group) | numericCommas}}</span> </div>
+                  <div> <span>{{calculatePriceWithFascia(group) | numericCommas}}</span> </div>
+                  <div> <span>{{calculateFinalMotorPrice(group) | numericCommas}}</span> </div>
+                  <div> <span>{{calculatePriceWithMotor(group) | numericCommas}}</span> </div>
+                  <div (click)="editCustomCalculation(group)" class="icon-container">
+                    <mat-icon>manage</mat-icon>
+                  </div>
+                </div>
+                
+              </div>
+              <!-- <mat-form-field>
+                <input matInput type="text">
+                </mat-form-field> -->
+            </div>
+          </div>
+          <div class="pagination"><span *ngIf="numOfPages > 1">Page {{currentPagination + 1}}/{{numOfPages}}</span><div class="iconContainer left" (click)="lastPage()"><mat-icon>chevron_left</mat-icon></div><div class="iconContainer right" (click)="nextPage()"><mat-icon>chevron_right</mat-icon></div></div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
+

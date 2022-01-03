@@ -1,0 +1,46 @@
+.container {
+    .masonryChart {
+        .masonryChartItem {
+            position: relative;
+            margin-bottom: auto;
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            min-height: 250px;
+            box-shadow: 2px 2px 3px #00000077;
+            background-color: rgb(41, 41, 41);
+            h2 {
+                margin: 0;
+                padding: 0 6px;
+            }
+            textarea {
+                width: calc(100% - 5px);
+                height: 210px;
+                background-color: rgb(54, 54, 54);
+                color: white;
+                
+            }
+            &:hover .icon-container {
+             display: flex;
+            }
+
+            .icon-container {
+                position: absolute;
+                top: 0;
+                right: -5px;
+                width: 30px;
+                height: 30px;
+                display: none;
+
+                mat-icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    
+}

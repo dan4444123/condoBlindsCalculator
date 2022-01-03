@@ -1,0 +1,39 @@
+<h1>Edit Items</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <header>
+                <div> <span>Room</span> </div>
+                <div> <span>Group Name</span> </div>
+                <div> <span>Group Type</span> </div>
+                <div> <span># of Blinds</span> </div>
+                <div> <span>Width</span> </div>
+                <div> <span>Height</span> </div>
+                <div> <span>Discount</span> </div>
+                <div> <span>Discount 2</span> </div>
+            </header>
+            <div class="row">
+                <div> <input type="text" [(ngModel)]="data.room"> </div>
+                <div> <select [(ngModel)]="data.groupName">
+                    <option *ngFor="let item of data.groupNames; index as i" [selected]="">{{item}}</option>
+                </select> </div>
+                <div> <select [(ngModel)]="data.groupType">
+                    <option *ngFor="let mat of MaterialGroups; index as matIndex" [selected]="data.groupType !== mat.tag" [value]="mat.tag">{{mat.name}}</option>
+                </select> </div>
+                <div> <input  type="number" [(ngModel)]="data.quantity"></div>
+                <div> <input  type="number" [(ngModel)]="data.width"> </div>
+                <div> <input  type="number" [(ngModel)]="data.height"> </div>
+                <div> <input  type="numer"  [(ngModel)]="data.discount"> </div>
+                <div> <input  type="numer"  [(ngModel)]="data.discount2"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="buttonBar">
+    <a class="iconContainer" [mat-dialog-close]="data">
+        <mat-icon >check</mat-icon>
+    </a>
+    <a class="iconContainer" [mat-dialog-close]="true">
+        <mat-icon >delete</mat-icon>
+    </a>
+</div>

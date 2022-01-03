@@ -1,0 +1,23 @@
+mat-toolbar {
+    @media print {
+        display: none;
+    }
+    
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    .iconContainer {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+
+        
+        svg {
+            color: white;
+        }
+    }
+}
+
+// .version::after {
+//   display: inline-block;
+//   position: relative;
+//   content: "css: 11.0.0";
+// }
